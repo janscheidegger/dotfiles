@@ -142,7 +142,7 @@ install_vim_plugins () {
     git submodule update
     mkdir -p ~/.vim/autoload
     curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-    mv vim/bundle ~/.vim/
+    cp vim/bundle ~/.vim/
 }
 
 setup_gitconfig
