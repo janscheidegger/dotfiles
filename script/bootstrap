@@ -137,6 +137,10 @@ install_dotfiles () {
   done
 }
 
+install_vim_plugins () {
+
+}
+
 setup_gitconfig
 install_dotfiles
 
