@@ -1,0 +1,231 @@
+" .vimrc
+" Author Jan Scheidegger <scheideggerj@gmail.com>
+" Sources:
+"	stevelosh.com
+
+" Preamble ---------------------------------------------------{{{
+
+set shell=/bin/bash\ --login
+
+filetype off
+call pathogen#infect()
+filetype plugin indent on
+set nocompatible
+
+" }}}
+" Basics -----------------------------------------------------{{{
+
+set encoding=utf-8
+set modelines=0
+set autoindent
+set showmode
+set showcmd
+set hidden
+set visualbell
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set number
+set norelativenumber
+set laststatus=2
+set history=1000
+set undofile
+set undoreload=10000
+set list
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set lazyredraw
+set matchtime=3
+set showbreak=↪
+set splitbelow
+set splitright
+set autowrite
+set autoread
+set shiftround
+set title
+set linebreak
+set colorcolumn=+1
+
+let mapleader = ","
+
+set notimeout
+set ttimeout
+set ttimeoutlen=10
+
+" Save when losing focus, who doesn't want this
+au FocusLost * :silent! wall
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
+
+" }}}
+" Spelling ---------------------------------------------------{{{
+set dictionary=/usr/share/dict/words
+set spellfile=~/.vim/suctom-dictionary.utf-8.add,~/.vim-local-dictionary.utf-8.add
+nnoremap zG 2zg
+
+set complete=.,w,b,u,t
+set completeopt=longest,menuone,preview
+
+" }}}
+" Folding ----------------------------------------------------{{{
+set foldlevelstart=0
+
+" Space to toggle folds.
+noremap <Space> za
+vnoremap <Space> za
+
+" Make zO recursively open whatever fold we're in, even if it's partially open.
+nnoremap zO zczO
+
+" "Focus" the current line.  Basically:
+"
+" 1. Close all folds.
+" 2. Open just the folds containing the current line.
+" 3. Move the line to a little bit (15 lines) above the center of the screen.
+" 4. Pulse the cursor line.  My eyes are bad.
+"
+" This mapping wipes out the z mark, which I never use.
+"
+" I use :sus for the rare times I want to actually background Vim.
+nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+" Wildmenu completion ----------------------------------------{{{
+
+set wildmenu
+set wildmode=list:longest
+
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
+
+set wildignore+=*.luac                           " Lua byte code
+
+set wildignore+=migrations                       " Django migrations
+set wildignore+=*.pyc                            " Python byte code
+
+set wildignore+=*.orig                           " Merge resolution files
+
+" Clojure/Leiningen
+set wildignore+=classes
+set wildignore+=lib
+
+" }}}
+" Tabs, spaces, wrapping -------------------------------------{{{
+
+set tabstop=8
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set wrap
+set textwidth=80
+set formatoptions=qrn1
+set colorcolumn=+1
+
+" }}}
+" It's all about handling ------------------------------------{{{
+" Source
+vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
+nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+inoremap jj <ESC> 
+nnoremap :Wq :wq
+" Sudo to write
+cnoremap w!! w !sudo tee % >/dev/null
+noremap <F5> :w\|silent! make \| copen <CR>
+map <C-L> <C-W>l<C-W>
+map <C-H> <C-W>h<C-W>
+" ---- Tabularize --------------------------------------------{{{
+
+vnoremap 
+
+" }}}
+
+" }}}
+" Abbreviations ----------------------------------------------{{{
+iabbrev js@ scheideggerj@gmail.com
+" }}}
+" Quick Edit importan files ----------------------------------{{{
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+" }}}
+" Backups ----------------------------------------------------{{{
+
+set backup
+set noswapfile
+
+set undodir=~/.vim/tmp/undo//
+set backupdir=~/.vim/tmp/backup//
+set directory=~/.vim/tmp/swap//
+
+if !isdirectory(expand(&backupdir))
+	call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&undodir))
+	call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&directory))
+	call mkdir(expand(&directory), "p")
+endif
+" }}}
+" Because I like color ---------------------------------------{{{
+
+syntax on
+set background=dark
+let g:badwolf_tabline = 2
+let g:badwolf_html_link_underline = 0
+colorscheme badwolf
+
+" Reload the colorscheme whenever we write the file.
+augroup color_badwolf_dev
+    au!
+    au BufWritePost badwolf.vim color badwolf
+augroup END
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" }}}
+" NERD Tree --------------------------------------------------{{{
+
+noremap  <F2> :NERDTreeToggle<cr> inoremap <F2> <esc>:NERDTreeToggle<cr>
+" }}}
+" Filetype specific ------------------------------------------{{{
+" ---- Vim ---------------------------------------------------{{{
+
+augroup ft_vim
+    au!
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
+" }}}
+" ---- Markdown ----------------------------------------------{{{
+augroup markdown
+    au!
+    au BufEnter * let &complete=".,w,b,u,t,i"
+    au BufNewFile,BufRead,BufWrite *.txt,*.md,*.markdown setl ft=markdown ts=3 sw =3
+    au BufNewFile,BufRead,BufWrite *.txt,*.md,*.markdown let &complete="k".expand("%:p:h")."/*.md"
+    au BufRead,BufWrite,InsertChange *.txt,*.md,*.markdown syn match ErrorMsg '\%>77v.\+'
+"}}}
+"}}}
