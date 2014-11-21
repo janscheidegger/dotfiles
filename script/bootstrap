@@ -138,11 +138,16 @@ install_dotfiles () {
 }
 
 install_vim_plugins () {
-
+    git submodule init
+    git submodule update
+    mkdir -p ~/.vim/autoload
+    curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+    mv vim/bundle ~/.vim/
 }
 
 setup_gitconfig
 install_dotfiles
+install_vim_plugins
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]
