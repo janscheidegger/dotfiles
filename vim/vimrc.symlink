@@ -5,12 +5,15 @@
 
 " Preamble ---------------------------------------------------{{{
 
-set shell=/bin/bash\ --login
-
 filetype off
 call pathogen#infect()
 filetype plugin indent on
 set nocompatible
+
+" Fuck Gnome-Terminal
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
 
 " }}}
 " Basics -----------------------------------------------------{{{
