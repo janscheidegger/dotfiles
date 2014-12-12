@@ -212,6 +212,9 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 noremap  <F2> :NERDTreeToggle<cr> inoremap <F2> <esc>:NERDTreeToggle<cr>
 " }}}
+" TagBar -----------------------------------------------------{{{
+noremap <leader>b :TagbarToggle<CR>
+" }}}
 " Filetype specific ------------------------------------------{{{
 " ---- Vim ---------------------------------------------------{{{
 
