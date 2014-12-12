@@ -47,6 +47,7 @@ set shiftround
 set title
 set linebreak
 set colorcolumn=+1
+set omnifunc=syntaxcomplete#Complete
 
 let mapleader = ","
 
@@ -156,12 +157,12 @@ nnoremap :Wq :wq
 " Sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
 noremap <F5> :w\|silent! make \| copen <CR>
+" Move left right split
 map <C-L> <C-W>l<C-W>
 map <C-H> <C-W>h<C-W>
-" ---- Tabularize --------------------------------------------{{{
-
-vnoremap 
-
+" ---- Completion with ctrl space --------------------------------------------{{{
+inoremap <C-Space> <C-x><C-o>
+inoremap <C-@> <C-Space>
 " }}}
 
 " }}}
@@ -215,6 +216,14 @@ noremap  <F2> :NERDTreeToggle<cr> inoremap <F2> <esc>:NERDTreeToggle<cr>
 " TagBar -----------------------------------------------------{{{
 noremap <leader>b :TagbarToggle<CR>
 " }}}
+" CtrlP ------------------------------------------------------{{{
+map <leader>. :CtrlPTag<CR>
+" }}}
+" CTAG -------------------------------------------------------{{{
+" Remap go in funktion with ctrl j go out with ctrl k
+nnoremap <C-j> <C-]>
+nnoremap <C-k> <C-t>
+" }}}
 " Filetype specific ------------------------------------------{{{
 " ---- Vim ---------------------------------------------------{{{
 
@@ -235,3 +244,4 @@ augroup markdown
     au BufRead,BufWrite,InsertChange *.txt,*.md,*.markdown syn match ErrorMsg '\%>77v.\+'
 "}}}
 "}}}
+
