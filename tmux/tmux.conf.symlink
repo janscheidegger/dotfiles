@@ -1,1 +1,20 @@
+###
+# Custom tmux config by Jan Scheidegger
+###
+
+# Ring the bell if any background window rang the bell
+set -g bell-action any
+
+# Default termtype = 256 Color
+
+# Use ctrl-a as ctrl-b
 set-option -g prefix C-a
+
+# Create vertical split
+bind-key v split-window -h -p 50 -c "#{pane_current_path}"
+# Create horizontal split
+bind-key s split-window -p 50 -c  "#{pane_current_path}"
+
+# Reload changes in this config with r
+unbind r
+bind r source-file ~/.tmux.conf \; display "Reloaded!"
