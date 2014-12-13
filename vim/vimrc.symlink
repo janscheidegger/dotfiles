@@ -2,7 +2,8 @@
 " Author Jan Scheidegger <scheideggerj@gmail.com>
 " Sources:
 "	stevelosh.com
-
+"	http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
+"
 " Preamble ---------------------------------------------------{{{
 
 filetype off
@@ -94,19 +95,19 @@ nnoremap zO zczO
 nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
 
 function! MyFoldText() " {{{
-let line = getline(v:foldstart)
+    let line = getline(v:foldstart)
 
-let nucolwidth = &fdc + &number * &numberwidth
-let windowwidth = winwidth(0) - nucolwidth - 3
-let foldedlinecount = v:foldend - v:foldstart
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
 
-" expand tabs into spaces
-let onetab = strpart('          ', 0, &tabstop)
-let line = substitute(line, '\t', onetab, 'g')
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
 
-let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
 
@@ -160,17 +161,22 @@ noremap <F5> :w\|silent! make \| copen <CR>
 " Move left right split
 map <C-L> <C-W>l<C-W>
 map <C-H> <C-W>h<C-W>
-" ---- Completion with ctrl space --------------------------------------------{{{
-inoremap <C-Space> <C-x><C-o>
-inoremap <C-@> <C-Space>
-" }}}
+" Build with <leader> rr
+nnoremap <leader>rr :Make
+" Fuck shift!
+nnoremap :WQ :wq
+nnoremap :Wq :wq
+nnoremap :Q :q
+nnoremap :W :w
 
 " }}}
 " Abbreviations ----------------------------------------------{{{
 iabbrev js@ scheideggerj@gmail.com
 " }}}
-" Quick Edit importan files ----------------------------------{{{
+" Quick Edit important files ----------------------------------{{{
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>et :vsplit ~/.dotfiles/tmux/tmux.conf.symlink<CR>
+nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc.symlink<CR>
 " }}}
 " Backups ----------------------------------------------------{{{
 
@@ -201,8 +207,8 @@ colorscheme badwolf
 
 " Reload the colorscheme whenever we write the file.
 augroup color_badwolf_dev
-au!
-au BufWritePost badwolf.vim color badwolf
+    au!
+    au BufWritePost badwolf.vim color badwolf
 augroup END
 
 " Highlight VCS conflict markers
@@ -249,6 +255,36 @@ augroup markdown
     au BufNewFile,BufRead,BufWrite *.txt,*.md,*.markdown setl ft=markdown ts=3 sw =3
     au BufNewFile,BufRead,BufWrite *.txt,*.md,*.markdown let &complete="k".expand("%:p:h")."/*.md"
     au BufRead,BufWrite,InsertChange *.txt,*.md,*.markdown syn match ErrorMsg '\%>77v.\+'
-"}}}
-"}}}
+    "}}}
+    "}}}
+" Function quickfix ------------------------------------------{{{
+    function! GetBufferList()
+        redir =>buflist
+        silent! ls
+        redir END
+        return buflist
+    endfunction
 
+    function! ToggleList(bufname, pfx)
+        let buflist = GetBufferList()
+        for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+            if bufwinnr(bufnum) != -1
+                exec(a:pfx.'close')
+                return
+            endif
+        endfor
+        if a:pfx == 'l' && len(getloclist(0)) == 0
+            echohl ErrorMsg
+            echo "Location List is Empty."
+            return
+        endif
+        let winnr = winnr()
+        exec(a:pfx.'open')
+        if winnr() != winnr
+            wincmd p
+        endif
+    endfunction
+
+    nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+    nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
+"}}}
