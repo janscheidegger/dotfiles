@@ -17,10 +17,15 @@ bind-key v split-window -h -p 50 -c "#{pane_current_path}"
 bind-key s split-window -p 50 -c  "#{pane_current_path}"
 
 # Moving between panes
+
 bind h select-pane -L
+bind ^h select-pane -L
 bind j select-pane -D
-bind k select-pane -U
+bind ^j select-pane -D
 bind l select-pane -R
+bind ^l select-pane -R
+bind k select-pane -U
+bind ^k select-pane -U
 
 # Pane resizing
 bind -r H resize-pane -L 5
