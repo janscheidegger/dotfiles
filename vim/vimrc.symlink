@@ -94,19 +94,19 @@ nnoremap zO zczO
 nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
 
 function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
+let line = getline(v:foldstart)
 
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
+let nucolwidth = &fdc + &number * &numberwidth
+let windowwidth = winwidth(0) - nucolwidth - 3
+let foldedlinecount = v:foldend - v:foldstart
 
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
+" expand tabs into spaces
+let onetab = strpart('          ', 0, &tabstop)
+let line = substitute(line, '\t', onetab, 'g')
 
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
 
@@ -182,13 +182,13 @@ set backupdir=~/.vim/tmp/backup//
 set directory=~/.vim/tmp/swap//
 
 if !isdirectory(expand(&backupdir))
-	call mkdir(expand(&backupdir), "p")
+    call mkdir(expand(&backupdir), "p")
 endif
 if !isdirectory(expand(&undodir))
-	call mkdir(expand(&undodir), "p")
+    call mkdir(expand(&undodir), "p")
 endif
 if !isdirectory(expand(&directory))
-	call mkdir(expand(&directory), "p")
+    call mkdir(expand(&directory), "p")
 endif
 " }}}
 " Because I like color ---------------------------------------{{{
@@ -201,8 +201,8 @@ colorscheme badwolf
 
 " Reload the colorscheme whenever we write the file.
 augroup color_badwolf_dev
-    au!
-    au BufWritePost badwolf.vim color badwolf
+au!
+au BufWritePost badwolf.vim color badwolf
 augroup END
 
 " Highlight VCS conflict markers
@@ -223,6 +223,13 @@ map <leader>. :CtrlPTag<CR>
 " Remap go in funktion with ctrl j go out with ctrl k
 nnoremap <C-j> <C-]>
 nnoremap <C-k> <C-t>
+" }}}
+" GIT --------------------------------------------------------{{{
+nnoremap <leader>ga :Gwrite<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gb :Gbrowse<cr>
+nnoremap <leader>gp :Gpush<cr>
 " }}}
 " Filetype specific ------------------------------------------{{{
 " ---- Vim ---------------------------------------------------{{{
