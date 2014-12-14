@@ -157,7 +157,6 @@ inoremap jj <ESC>
 nnoremap :Wq :wq
 " Sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
-noremap <F5> :w\|silent! make \| copen <CR>
 " Move left right split
 map <C-L> <C-W>l<C-W>
 map <C-H> <C-W>h<C-W>
