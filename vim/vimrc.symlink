@@ -162,7 +162,7 @@ noremap <F5> :w\|silent! make \| copen <CR>
 map <C-L> <C-W>l<C-W>
 map <C-H> <C-W>h<C-W>
 " Build with <leader> rr
-nnoremap <leader>rr :Make
+nnoremap <leader>rr :Make<CR>
 " Fuck shift!
 nnoremap :WQ :wq
 nnoremap :Wq :wq
@@ -173,7 +173,7 @@ nnoremap :W :w
 " Abbreviations ----------------------------------------------{{{
 iabbrev js@ scheideggerj@gmail.com
 " }}}
-" Quick Edit important files ----------------------------------{{{
+" Quick Edit important files ---------------------------------{{{
 nnoremap <leader>ev :vsplit ~/.dotfiles/vim/vimrc.symlink<cr>
 nnoremap <leader>et :vsplit ~/.dotfiles/tmux/tmux.conf.symlink<CR>
 nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc.symlink<CR>
