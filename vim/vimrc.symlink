@@ -216,7 +216,8 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " }}}
 " NERD Tree --------------------------------------------------{{{
 
-noremap  <F2> :NERDTreeToggle<cr> inoremap <F2> <esc>:NERDTreeToggle<cr>
+nnoremap  <F2> :NERDTreeToggle<cr>
+inoremap <F2> <esc>:NERDTreeToggle<cr>
 " }}}
 " TagBar -----------------------------------------------------{{{
 noremap <leader>b :TagbarToggle<CR>
