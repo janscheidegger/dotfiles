@@ -167,6 +167,7 @@ nnoremap :WQ :wq
 nnoremap :Wq :wq
 nnoremap :Q :q
 nnoremap :W :w
+map <leader>d Yp
 
 " }}}
 " Abbreviations ----------------------------------------------{{{
