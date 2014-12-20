@@ -154,6 +154,7 @@ set colorcolumn=+1
 vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 inoremap jj <ESC> 
+inoremap kk <ESC>
 nnoremap :Wq :wq
 " Sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
