@@ -55,7 +55,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/texbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/texbin:/usr/share/idea-IU-141.713.2/bin/"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -84,3 +84,5 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/texbin"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias tmux="tmux -2"
 alias dotfiles="cd ~/.dotfiles/"
+alias python="python3"
+alias notes="cd ~/Dropbox/notes/"
