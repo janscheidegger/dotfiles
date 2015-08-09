@@ -37,6 +37,8 @@ bind -r L resize-pane -R 5
 set -g base-index 1
 setw -g pane-base-index 1
 
+# Title
+set-option -g allow-rename off
 
 ###
 # Statusbar
