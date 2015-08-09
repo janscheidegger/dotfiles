@@ -1,3 +1,7 @@
 [user]
 	name = Jan Scheidegger
 	email = scheideggerj@gmail.com
+[push]
+	default = simple
+[core]
+	autocrlf = input
