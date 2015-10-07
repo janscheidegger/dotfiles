@@ -2,6 +2,11 @@
 export ZSH=$HOME/.oh-my-zsh
 export LC_ALL=en_US.UTF-8 
 export LANG=en_US.UTF-8 
+export JBOSS_HOME=/usr/local/opt/wildfly-as/libexec
+export PATH=${PATH}:${JBOSS_HOME}/bin
+
+#export TERM=screen-256color
+
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -80,5 +85,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/texbin"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias tmux="TERM=screen-256color-bce tmux"
-export TERM=screen-256color-bce
+alias tmux="tmux -2"
+alias dotfiles="cd ~/.dotfiles/"
+alias notes="cd ~/Dropbox/notes/"
+alias apt-get install="sudo apt-get install"
